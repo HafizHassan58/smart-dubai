@@ -18,6 +18,6 @@ public class Book implements Serializable {
     private String author;
     @Column(name = "type_id")
     private Integer typeId;
-    private Double price;
+    private Long price;
     private String isbn;
 }

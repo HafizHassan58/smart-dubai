@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class UpdateBookRequest implements Serializable {
+public class CheckOutBookRequest implements Serializable {
 
     @NotNull(message = "id cannot be null")
     private Integer id;

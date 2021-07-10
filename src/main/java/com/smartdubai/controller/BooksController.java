@@ -2,9 +2,11 @@ package com.smartdubai.controller;
 
 import com.smartdubai.entity.Book;
 import com.smartdubai.model.request.AddBookRequest;
+import com.smartdubai.model.request.CheckOutBookRequest;
 import com.smartdubai.model.request.UpdateBookRequest;
 import com.smartdubai.model.response.GenericResponse;
 import com.smartdubai.service.BookService;
+import com.smartdubai.service.CheckOutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,11 @@ public class BooksController {
 
     @Autowired
     private BookService bookService;
+    @Autowired
+    private CheckOutService checkOutService;
 
     @GetMapping("/book")
-    public ResponseEntity<?> getAllBooks() {
+    public ResponseEntity<GenericResponse> getAllBooks() {
         try {
             List<Book> books = bookService.getAllBooks();
             GenericResponse response = new GenericResponse("Success", true, books);
@@ -32,7 +36,7 @@ public class BooksController {
     }
 
     @GetMapping("/book/{bookId}")
-    public ResponseEntity<?> getBookById(@PathVariable("bookId") int bookId) {
+    public ResponseEntity<GenericResponse> getBookById(@PathVariable("bookId") int bookId) {
         try {
             Book book = bookService.getBookById(bookId);
             GenericResponse response = new GenericResponse("Success", true, book);
@@ -67,11 +71,23 @@ public class BooksController {
         }
     }
 
-    @DeleteMapping("/book/{bookid}")
+    @DeleteMapping("/book/{bookId}")
     public ResponseEntity<?> deleteBookById(@PathVariable("bookId") int bookId) {
         try {
             bookService.delete(bookId);
             GenericResponse response = new GenericResponse("Book Deleted Successfully!", true, null);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            GenericResponse response = new GenericResponse("Internal Server Error!", false, null);
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    @PostMapping("/book/checkOut")
+    public ResponseEntity<?> checkOut(@Valid @RequestBody List<CheckOutBookRequest> books) {
+        try {
+            Long totalAmount = checkOutService.checkOutBooks(books);
+            GenericResponse response = new GenericResponse("Total Payable Amount: "+totalAmount, true, null);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             GenericResponse response = new GenericResponse("Internal Server Error!", false, null);

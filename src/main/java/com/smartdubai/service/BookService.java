@@ -30,13 +30,11 @@ public class BookService {
     }
 
     public Book saveBook(AddBookRequest addBookRequest) throws Exception{
-        Book book = bookMapper.mapBookRequest(addBookRequest);
-        return bookRepository.save(book);
+        return bookRepository.save(bookMapper.mapBookRequest(addBookRequest));
     }
 
     public Book updateBook(UpdateBookRequest updateBookRequest) {
-        Book book = bookMapper.mapBookRequest(updateBookRequest);
-        return bookRepository.save(book);
+        return bookRepository.save(bookMapper.mapBookRequest(updateBookRequest));
     }
 
     public void delete(int id) {

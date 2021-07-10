@@ -4,29 +4,28 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
-public class AddBookRequest {
+public class AddBookRequest implements Serializable {
 
-    @NotNull
+    @NotNull(message = "name cannot be null")
     @NotEmpty
     private String name;
 
     private String description;
 
-    @NotNull
+    @NotNull(message = "author cannot be null")
     @NotEmpty
     private String author;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "typeId cannot be null")
     private Integer typeId;
 
-    @NotNull
-    @NotEmpty
-    private Double price;
+    @NotNull(message = "price cannot be null")
+    private Long price;
 
-    @NotNull
+    @NotNull(message = "isbn cannot be null")
     @NotEmpty
     private String isbn;
 }
